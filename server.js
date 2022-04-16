@@ -16,6 +16,12 @@ app.use(favicon(path.join(__dirname, 'build', 'favicon.ico'))); // Use this so t
 
 app.use(express.static(path.join(__dirname, 'build'))); // want to static the build folder because it is the production ready code to deploy; this is what we want to serve; static means anything in this folder I want to serve as is // it will also figure out what computer you are on, and it will figure out the path
 
+// Check if token and create req.user
+app.use(require('./config/checkToken'));
+
+// API //
+app.use('/api/users', require('./routes/api/users'));
+
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 }); // Whenever you do something that isn't an API request, and not in the build folder, then run this catch all route; it will route back to index.html 

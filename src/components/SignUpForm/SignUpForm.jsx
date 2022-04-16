@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { signUp } from '../../utilities/users-service';
 
 export default class SignUpForm extends Component {
     state = {
@@ -13,9 +14,16 @@ export default class SignUpForm extends Component {
         this.setState({...this.state, [evt.target.name]: evt.target.value, error: "" })
     };
 
-    handleSubmit = (evt) => {
+    handleSubmit = async (evt) => {
         evt.preventDefault(); // this is to prevent the reload of the page once you hit submit; we don't want it to reload
-        alert(JSON.stringify(this.state))
+        try {
+          const {name, email, password} = this.state;
+          const formData = {name, email, password};
+          const user = await signUp(formData)
+          localStorage.setItem('token', user)
+        } catch (error) {
+          this.setState({ error: "Sign Up Failed"})
+        }
     };
     
     
