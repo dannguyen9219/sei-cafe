@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
       req.user = err ? null : decoded.user;
       // Can remove this...
       // If your app doesn't care
-    //   req.exp = err ? null : new Date(decoded.exp * 1000);
+      req.exp = err ? null : new Date(decoded.exp * 1000);
     });
     return next();
   } else {

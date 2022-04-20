@@ -17,10 +17,11 @@ export default class SignUpForm extends Component {
     handleSubmit = async (evt) => {
         evt.preventDefault(); // this is to prevent the reload of the page once you hit submit; we don't want it to reload
         try {
-          const {name, email, password} = this.state;
-          const formData = {name, email, password};
+          const formData = {...this.state};
+          delete formData.error;
+          delete formData.confirm;
           const user = await signUp(formData)
-          localStorage.setItem('token', user)
+          this.props.setUser(user)
         } catch (error) {
           this.setState({ error: "Sign Up Failed"})
         }
@@ -44,7 +45,7 @@ export default class SignUpForm extends Component {
                 <button type="submit" disabled={disable}>SIGN UP</button>
               </form>
             </div>
-            <p className="error-message">&nbsp;{this.state.error}</p>
+            <h1 className="error-message">&nbsp;{this.state.error}</h1>
           </div>
         );
     };

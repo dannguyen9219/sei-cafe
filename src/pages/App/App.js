@@ -19,7 +19,7 @@ function App() {
           <Route path="/orders" element={<OrderHistoryPage/>}></Route>
         </Routes>
         :
-        <AuthPage />
+        <AuthPage setUser={setUser} />
       }
     </main>
   );
