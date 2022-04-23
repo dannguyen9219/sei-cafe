@@ -1,23 +1,27 @@
-import { useState } from 'react'; // using curly braces because it is a named function in React
-import NewOrderPage from '../NewOrderPage/NewOrderPage';
+import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import styles from './App.module.css';
+import { getUser } from '../../utilities/users-service';
 import AuthPage from '../AuthPage/AuthPage';
+import NewOrderPage from '../NewOrderPage/NewOrderPage';
 import OrderHistoryPage from '../OrderHistoryPage/OrderHistoryPage';
-import './App.module.css';
-import { Routes, Route } from 'react-router-dom';
 
 function App() {
-
-  const [user, setUser] = useState(null); // useState returns an array, so we are destructuring on the left; value of null will be stored in the first item in the array // w18d02 2:35 take lots of notes // null is falsy value
+  const [user, setUser] = useState(getUser()); // useState returns an array, so we are destructuring on the left; value of null will be stored in the first item in the array // w18d02 2:35 take lots of notes // null is falsy value
 
 
   return (
-    <main className="App">
-      {
-        user ?
-        <Routes>
-          <Route path="/orders/new" element={<NewOrderPage/>}></Route>
-          <Route path="/orders" element={<OrderHistoryPage/>}></Route>
-        </Routes>
+    <main className={styles.App}>
+      { user ?
+        <>
+          <Routes>
+            {/* client-side route that renders the component instance if the path matches the url in the address bar */}
+            <Route path="/orders/new" element={<NewOrderPage user={user} setUser={setUser} />} />
+            <Route path="/orders" element={<OrderHistoryPage user={user} setUser={setUser} />} />
+            {/* redirect to /orders/new if path in address bar hasn't matched a <Route> above */}
+            <Route path="/*" element={<Navigate to="/orders/new" />} />
+          </Routes>
+        </>
         :
         <AuthPage setUser={setUser} />
       }

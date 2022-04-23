@@ -4,6 +4,7 @@ import * as usersAPI from './users-api';
 //Sign Up
 export async function signUp(userData){
  const token = await usersAPI.signUp(userData);
+ // Persist the token to localStorage
  localStorage.setItem('token', token);
  return token;
 };
@@ -27,7 +28,7 @@ export function getToken(){
     if(payload.exp < Date.now() / 1000 ){
         localStorage.removeItem('token');
         return null;
-    }
+    };
 
     return token;
 };
@@ -41,15 +42,14 @@ export function getUser(){
 };
 
 
-// logout
+// LogOut
 
-export function logout(){
+export function logOut(){
     localStorage.removeItem('token')
 };
 
 // checkToken
-
-export function checkToken(){
-    return usersAPI.checkToken()
-           .then(dateStr => new Date(dateStr))
-};
+// export function checkToken(){
+//     return usersAPI.checkToken()
+//            .then(dateStr => new Date(dateStr))
+// };

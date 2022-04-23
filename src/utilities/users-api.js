@@ -1,3 +1,16 @@
+import sendRequest from './send-request';
+
+const BASE_URL = '/api/users';
+
+export function signUp(userData) {
+  return sendRequest(BASE_URL, 'POST', userData);
+};
+
+export function login(credentials) {
+  return sendRequest(`${BASE_URL}/login`, 'POST', credentials);
+};
+
+/*
 import { getToken } from './users-service'
 const BASE_URL = '/api/users';
 
@@ -31,3 +44,4 @@ async function sendRequest(url, method = 'GET', payload = null) {
     if (res.ok) return res.json();
     throw new Error('Bad Request');
 };
+*/
